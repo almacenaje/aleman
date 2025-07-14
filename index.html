@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alemán para Pequeños Viajeros</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2 {
+            font-family: 'Fredoka One', cursive;
+        }
+        .card {
+            background-color: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .audio-btn {
+            background-color: #38bdf8; /* Light Blue */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(56, 189, 248, 0.4);
+            flex-shrink: 0;
+        }
+        .audio-btn:hover {
+            background-color: #0ea5e9; /* Darker Blue */
+        }
+        .audio-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+        .gemini-btn {
+            background: linear-gradient(45deg, #f9a8d4, #c4b5fd);
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .gemini-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(196, 181, 253, 0.5);
+        }
+        .gemini-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #c4b5fd;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-yellow-200 via-green-200 to-blue-300 min-h-screen">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8">
+        
+        <header class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl text-gray-800 tracking-tight">Alemán para Pequeños Viajeros 🇩🇪</h1>
+            <p class="mt-4 text-lg text-gray-600">¡Aprende frases divertidas y crea diálogos para tu aventura en Alemania!</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Gemini API Section -->
+            <div class="card md:col-span-2 lg:col-span-3">
+                <h2 class="text-2xl text-indigo-500 mb-4">✨ Crea tu Diálogo Mágico</h2>
+                <div class="flex-grow">
+                    <p class="text-gray-600 mb-4">Escribe una situación y la IA creará una conversación para ti.</p>
+                    <div class="flex flex-col sm:flex-row gap-2 mb-4">
+                        <input type="text" id="scenarioInput" placeholder="Ej: Pedir un helado" class="flex-grow p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+                        <button id="generateBtn" class="gemini-btn">Generar Diálogo</button>
+                    </div>
+                    <div id="dialogueResult" class="mt-4 space-y-4"></div>
+                    <div id="loader" class="loader hidden"></div>
+                </div>
+            </div>
+
+            <!-- Greetings Section -->
+            <div class="card">
+                <h2 class="text-2xl text-rose-500 mb-4">👋 Saludos</h2>
+                <ul class="space-y-4">
+                    <li class="flex items-center justify-between">
+                        <div><p class="font-bold text-lg text-gray-700">Hallo</p><p class="text-gray-500">Hola</p></div>
+                        <button class="audio-btn" onclick="speak('Hallo')"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg></button>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <div><p class="font-bold text-lg text-gray-700">Guten Morgen</p><p class="text-gray-500">Buenos días</p></div>
+                        <button class="audio-btn" onclick="speak('Guten Morgen')"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg></button>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <div><p class="font-bold text-lg text-gray-700">Tschüss</p><p class="text-gray-500">Adiós (informal)</p></div>
+                        <button class="audio-btn" onclick="speak('Tschüss')"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg></button>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <div><p class="font-bold text-lg text-gray-700">Bitte</p><p class="text-gray-500">Por favor / De nada</p></div>
+                        <button class="audio-btn" onclick="speak('Bitte')"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg></button>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <div><p class="font-bold text-lg text-gray-700">Danke</p><p class="text-gray-500">Gracias</p></div>
+                        <button class="audio-btn" onclick="speak('Danke')"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg></button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Basic Phrases Section -->
+            <div class="card">
+                <h2 class="text-2xl text-amber-500 mb-4">💬 Frases Básicas</h2>
+                <ul class="space-y-4">
+                    <li class="flex items-center justify-between">
+                        <div><p class="font-bold text-lg text-gray-700">Ja / Nein</p><p class="text-gray-500">Sí / No</p></div>
+                        <button class="audio-btn" onclick="speak('Ja. Nein.')"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg></button>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <div><p class="font-bold text-lg text-gray-700">Ich heiße...</p><p class="text-gray-500">Me llamo...</p></div>
+                        <button class="audio-btn" onclick="speak('Ich heiße')"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg></button>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <div><p class="font-bold text-lg text-gray-700">Ich verstehe nicht</p><p class="text-gray-500">No entiendo</p></div>
+                        <button class="audio-btn" onclick="speak('Ich verstehe nicht')"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg></button>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Restaurant Section -->
+            <div class="card">
+                <h2 class="text-2xl text-cyan-500 mb-4">🍔 En el Restaurante</h2>
+                <ul class="space-y-4">
+                    <li class="flex items-center justify-between">
+                        <div><p class="font-bold text-lg text-gray-700">Ich möchte...</p><p class="text-gray-500">Me gustaría...</p></div>
+                        <button class="audio-btn" onclick="speak('Ich möchte')"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg></button>
+                    </li>
+                     <li class="flex items-center justify-between">
+                        <div><p class="font-bold text-lg text-gray-700">Wasser, bitte</p><p class="text-gray-500">Agua, por favor</p></div>
+                        <button class="audio-btn" onclick="speak('Wasser, bitte')"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg></button>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <div><p class="font-bold text-lg text-gray-700">Die Rechnung, bitte</p><p class="text-gray-500">La cuenta, por favor</p></div>
+                        <button class="audio-btn" onclick="speak('Die Rechnung, bitte')"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg></button>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // This function uses the browser's built-in speech synthesis to speak the text.
+        function speak(text) {
+            // Cancel any previous speech
+            window.speechSynthesis.cancel();
+            // Create a new speech utterance
+            const utterance = new SpeechSynthesisUtterance(text);
+            // Set the language to German (Germany)
+            utterance.lang = 'de-DE';
+            // Set some properties for a clear voice
+            utterance.rate = 0.9;
+            utterance.pitch = 1.1;
+            // Use the speech synthesis API to speak
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Pre-load voices to ensure the German voice is available when the page loads.
+        window.speechSynthesis.getVoices();
+
+        // --- Gemini API Integration ---
+        const generateBtn = document.getElementById('generateBtn');
+        const scenarioInput = document.getElementById('scenarioInput');
+        const dialogueResult = document.getElementById('dialogueResult');
+        const loader = document.getElementById('loader');
+
+        generateBtn.addEventListener('click', generateDialogue);
+
+        async function generateDialogue() {
+            const userScenario = scenarioInput.value;
+            if (!userScenario.trim()) {
+                dialogueResult.innerHTML = '<p class="text-red-500">Por favor, escribe una situación.</p>';
+                return;
+            }
+
+            // Show loader and disable button
+            loader.classList.remove('hidden');
+            dialogueResult.innerHTML = '';
+            generateBtn.disabled = true;
+            generateBtn.textContent = 'Generando...';
+
+            // Construct the prompt for the Gemini API
+            const prompt = `Eres un tutor de alemán amigable para niños de 10 a 12 años. Crea un diálogo muy corto y simple en alemán para la siguiente situación: "${userScenario}". El diálogo debe ser fácil de entender para un principiante. Devuelve la respuesta como un objeto JSON. El objeto debe tener una clave "dialogue" que es un array de objetos. Cada objeto en el array debe tener tres claves: "speaker" (por ejemplo, "Kind", "Verkäufer", "Kellner"), "german" (la frase en alemán) y "spanish" (la traducción al español).`;
+            
+            const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+            const payload = { 
+                contents: chatHistory,
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            "dialogue": {
+                                "type": "ARRAY",
+                                "items": {
+                                    "type": "OBJECT",
+                                    "properties": {
+                                        "speaker": { "type": "STRING" },
+                                        "german": { "type": "STRING" },
+                                        "spanish": { "type": "STRING" }
+                                    },
+                                    "required": ["speaker", "german", "spanish"]
+                                }
+                            }
+                        },
+                        required: ["dialogue"]
+                    }
+                }
+            };
+
+            const apiKey = ""; // API key is handled by the environment
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    
+                    const jsonText = result.candidates[0].content.parts[0].text;
+                    const parsedData = JSON.parse(jsonText);
+                    displayDialogue(parsedData.dialogue);
+
+                } else {
+                    throw new Error("Respuesta inesperada de la API.");
+                }
+
+            } catch (error) {
+                console.error('Error fetching from Gemini API:', error);
+                dialogueResult.innerHTML = `<p class="text-red-500">¡Uy! Algo salió mal. Por favor, inténtalo de nuevo. (${error.message})</p>`;
+            } finally {
+                // Hide loader and re-enable button
+                loader.classList.add('hidden');
+                generateBtn.disabled = false;
+                generateBtn.textContent = 'Generar Diálogo';
+            }
+        }
+
+        function displayDialogue(dialogue) {
+            dialogueResult.innerHTML = ''; // Clear previous results
+            dialogue.forEach(line => {
+                const lineElement = document.createElement('div');
+                lineElement.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg';
+                
+                const textDiv = document.createElement('div');
+                
+                const germanP = document.createElement('p');
+                germanP.className = 'font-bold text-lg text-gray-700';
+                germanP.textContent = `${line.speaker}: ${line.german}`;
+                
+                const spanishP = document.createElement('p');
+                spanishP.className = 'text-gray-500';
+                spanishP.textContent = line.spanish;
+
+                textDiv.appendChild(germanP);
+                textDiv.appendChild(spanishP);
+
+                const audioButton = document.createElement('button');
+                audioButton.className = 'audio-btn';
+                audioButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" /></svg>`;
+                audioButton.onclick = () => speak(line.german);
+
+                lineElement.appendChild(textDiv);
+                lineElement.appendChild(audioButton);
+
+                dialogueResult.appendChild(lineElement);
+            });
+        }
+    </script>
+
+</body>
+</html>
